@@ -1,0 +1,63 @@
+<div class="filters d-flex justify-content-between p-4">
+  <!-- <div class="input">
+    <label for="filename" class="form-label">Nome do arquivo</label>
+    <input
+      type="text"
+      class="form-control"
+      id="filename"
+      placeholder="examplo.csv"
+    />
+  </div> -->
+  <div class="spacer"></div>
+
+  <button class="btn btn-primary" (click)="open(content)">
+    Enviar novo arquivo
+  </button>
+</div>
+
+<ng-template #content let-modal>
+  @if(!uploading){
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Fazer novo upload de arquivo
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="fileForm">
+      <div class="mb-3">
+        <label for="formFile" class="form-label"
+          >Selecione um arquivo CSV para fazer o upload</label
+        >
+        <input
+          class="form-control"
+          type="file"
+          id="formFile"
+          accept=".csv"
+          formControlName="file"
+          (change)="fileChange($event)"
+          required
+        />
+        <div
+          class="invalid-feedback d-block"
+          *ngIf="fileForm.hasError('filetype', 'file')"
+        >
+          Por favor, selecione um arquivo csv válido
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="sendFile()">
+      Enviar arquivo
+    </button>
+  </div>
+  } @else {
+  <app-progress [upload_percentage]="upload_percentage"></app-progress>
+  }
+</ng-template>

@@ -1,0 +1,29 @@
+<div class="filters">
+  <form class="row" [formGroup]="filters">
+    <div class="col-md-4 mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        placeholder="name@example.com"
+        formControlName="email"
+      />
+    </div>
+    <div class="col-md-4 mb-3">
+      <label for="governmentId" class="form-label">Documento</label>
+      <input
+        type="number"
+        class="form-control"
+        id="governmentId"
+        placeholder="999999999"
+        formControlName="governmentId"
+      />
+    </div>
+    <div class="col-md-4 mb-3 d-flex align-items-end">
+      <button class="btn btn-primary" (click)="sendApplyFilter()">
+        Aplicar filtros
+      </button>
+    </div>
+  </form>
+</div>
