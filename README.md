@@ -2,7 +2,7 @@
 
 ## Descrição do Projeto
 
-Este projeto foi desenvolvido como parte de um desafio proposto pela Kanastra. O objetivo era criar uma aplicação que incorporasse diversas tecnologias e solucionasse problemas específicos apresentados no desafio. A arquitetura foi construída utilizando Angular para o frontend e Python (Django) no backend. Além disso, foram integrados os bancos de dados Postgresql e MongoDB.
+Este monorepo foi criado para abrigar o projeto desenvolvido em resposta a um desafio proposto pela Kanastra. O objetivo era criar uma aplicação que incorporasse diversas tecnologias e solucionasse problemas específicos apresentados no desafio. A arquitetura foi construída utilizando Angular para o frontend e Python (Django) no backend. Além disso, foram integrados os bancos de dados Postgresql e MongoDB.
 Para otimizar o processamento de dados, implementei o uso do RabbitMQ, que possibilitou a criação de filas para a execução assíncrona de tarefas, utilizando um worker em Python. Essa abordagem visa melhorar a eficiência operacional, especialmente em cenários que demandam processamento paralelo e assíncrono de dados.
 
 ## Tecnologias Utilizadas
