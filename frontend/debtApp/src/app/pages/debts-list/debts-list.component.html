@@ -1,0 +1,80 @@
+<div class="container min-vh-100">
+  <h1 class="title py-5">Listar Débitos</h1>
+
+  <app-debt-filters (applyFilter)="applyFilters($event)"></app-debt-filters>
+  @if(pageState.loading) {
+  <div class="card p-5"><div class="message">Carregando...</div></div>
+  } @else if(debitsItems && debitsItems.length > 0) {
+  <div id="data_list" class="card h-100">
+    <div class="list">
+      @for(item of debitsItems; track item.debtID) {
+      <div class="card bg-light">
+        <div class="content row">
+          <div class="doc align-items-center d-flex col-md-1">
+            {{ item.governmentId }}
+          </div>
+          <div class="data col-md-5">
+            <div class="name">{{ item.name }}</div>
+            <div class="email">{{ item.email }}</div>
+          </div>
+          <div class="debt col-md-5">
+            <div class="value">{{ item.debtAmount | currencyBR }}</div>
+            <div class="duedate">
+              {{ item.debtDueDate | date : "dd/MM/yyyy" }}
+            </div>
+          </div>
+          <div class="mail col-md-1">
+            <button class="btn btn-primary" (click)="sendMail(item.email)">
+              <i class="bi bi-envelope-arrow-up-fill"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <div class="pagination row justify-content-between p-2">
+    <nav aria-label="paginação" class="col-md-8">
+      <ul class="pagination">
+        <li
+          class="page-item"
+          [ngClass]="{ disabled: !pagination.previous }"
+          (click)="previousPage()"
+        >
+          <span class="page-link">Anterior</span>
+        </li>
+        <li class="page-item">
+          <a class="page-link">{{ pagination.page + 1 }}</a>
+        </li>
+
+        <li class="page-item" (click)="nextPage()">
+          <a class="page-link" [ngClass]="{ disabled: !pagination.next }"
+            >Próxima</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <select
+      class="form-select col-md-4"
+      style="width: auto"
+      [(ngModel)]="pagination.rows"
+      (ngModelChange)="loadDebtsList()"
+    >
+      <option [ngValue]="10">10 itens por página</option>
+      <option [ngValue]="20">20 itens por página</option>
+      <option [ngValue]="30">30 itens por página</option>
+    </select>
+  </div>
+  }@else if(pageState.hasError){
+  <div class="card p-5">
+    <div class="message">Ocorreu um erro ao realizar a busca</div>
+  </div>
+  }@else {
+
+  <div class="card p-5">
+    <div class="message empty">Nenhum registro encontrado</div>
+  </div>
+  }
+</div>

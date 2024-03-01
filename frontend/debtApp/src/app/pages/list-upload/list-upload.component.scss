@@ -1,0 +1,62 @@
+.pagination {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  background-color: var(--bs-light);
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.table {
+  flex: 0 1 auto;
+
+  .table-header {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+  }
+
+  td {
+    vertical-align: middle;
+  }
+}
+
+.message {
+  text-align: center;
+}
+
+.status {
+  padding: 0.5rem;
+  background-color: #ccc;
+  border-radius: 0.5rem;
+  text-align: center;
+
+  &.f {
+    background-color: var(--bs-success);
+    color: var(--bs-white);
+  }
+
+  &.u {
+    background-color: var(--bs-info);
+    color: var(--bs-dark);
+  }
+
+  &.q {
+    background-color: var(--bs-info);
+    color: var(--bs-dark);
+  }
+
+  &.p {
+    background-color: var(--bs-primary);
+    color: var(--bs-white);
+  }
+
+  &.e {
+    background-color: var(--bs-danger);
+    color: var(--bs-white);
+  }
+}

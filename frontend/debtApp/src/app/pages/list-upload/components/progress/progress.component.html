@@ -1,0 +1,18 @@
+<div class="modal-body">
+  <div class="row progress-content">
+    <div class="col-md-2 icon">
+      <i class="bi bi-cloud-arrow-up-fill"></i>
+
+    </div>
+    <div class="col-md-10">
+      <div class="uploading  text-center text-md-start">
+        <h2 class="title text-center text-md-start">Aguarde...</h2>
+        <p class="message text-center text-md-start">Agora estamos enviando o seu arquivo. Espere um instante enquanto finalizamos o seu envio.</p>
+      </div>
+      <div class="progress" role="progressbar" aria-label="Barra de progresso" [attr.aria-valuenow]="upload_percentage" aria-valuemin="0" aria-valuemax="100" style="height: 20px">
+        <div class="progress-bar" style="width: 25%" [ngStyle]="{width: upload_percentage+'%'}">{{upload_percentage+'%'}}</div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,83 @@
+<div class="container min-vh-100 p-5">
+  <h1 class="title">Listar Uploads</h1>
+  <app-filters (onUploadSucccessfull)="loadUploadItems()"></app-filters>
+  @if(pageState.loading) {
+  <div class="card p-5">
+    <div class="message">Carregando...</div>
+  </div>
+  } @else if(uploadItems && uploadItems.length > 0) {
+  <div class="card h-100 flex-grow-1 p-4 bg-whit">
+    <table class="h-100 table table-striped">
+      <thead class="table-header">
+        <tr>
+          <th scope="col">Nome do arquivo</th>
+          <th scope="col">Criado em</th>
+          <th scope="col">Status</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of uploadItems; track item.id) {
+        <tr>
+          <td>
+            {{ item.file_name }}
+          </td>
+          <td>{{ item.created_at | date : "dd/MM/yyyy HH:mm" }}</td>
+          <td>
+            <span class="d-none d-sm-block">
+              <div class="status" [class]="item.status.toLowerCase()">
+                {{ item.status | status }}
+              </div></span
+            >
+            <span class="d-block d-sm-none">
+              <div class="status" [class]="item.status.toLowerCase()">
+                {{ item.status }}
+              </div></span
+            >
+          </td>
+          <td>
+            <button
+              class="btn btn-outline-primary"
+              [routerLink]="['/debts', { id: item.id }]"
+              [disabled]="item.status != 'F'"
+            >
+              <i class="bi bi-eye-fill"></i>
+            </button>
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination d-flex justify-content-between p-2">
+    <ngb-pagination
+      [collectionSize]="pagination.count"
+      [(page)]="pagination.page"
+      [pageSize]="pagination.rows"
+      (pageChange)="loadUploadItems()"
+    >
+    </ngb-pagination>
+
+    <select
+      class="form-select"
+      style="width: auto"
+      [(ngModel)]="pagination.rows"
+      (ngModelChange)="loadUploadItems()"
+    >
+      <option [ngValue]="10">10 itens por página</option>
+      <option [ngValue]="20">20 itens por página</option>
+      <option [ngValue]="30">30 itens por página</option>
+    </select>
+  </div>
+  }@else if(pageState.hasError){
+  <div class="card p-5">
+    <div class="message">Ocorreu um erro ao realizar a busca</div>
+  </div>
+  }@else {
+
+  <div class="card p-5">
+    <div class="message empty">Nenhum registro encontrado</div>
+  </div>
+  }
+</div>
