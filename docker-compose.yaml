@@ -1,0 +1,89 @@
+version: "3.8"
+
+services:
+  front:
+    build: ./frontend/debtApp
+    ports:
+      - 80:80
+    depends_on:
+      - web
+    networks:
+      - network
+  web:
+    build: ./backend/service
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend/service:/usr/src/app/
+      - app-volume:/django_files/
+    ports:
+      - 8000:8000
+
+    depends_on:
+      - postgres
+      - rabbitmq
+      - mongo
+    networks:
+      - network
+
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=file_upload
+    networks:
+      - network
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_management
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+    volumes:
+      - rabbit:/var/lib/rabbitmq/
+      - ./backend/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./backend/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: password
+    restart: always
+    networks:
+      - network
+  mongo:
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=project
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - network
+
+  worker:
+    build: ./backend/dataproc
+    command: python queue_listener.py
+    volumes:
+      - app-volume:/django_files/
+    depends_on:
+      - rabbitmq
+      - web
+    networks:
+      - network
+
+volumes:
+  app-volume:
+  pg-data:
+  mongo-data:
+  rabbit:
+
+networks:
+  network:
+    driver: bridge
